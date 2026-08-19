@@ -7,6 +7,14 @@
   },
   "center": [54.37, 24.47],
   "zoom": 10,
+  "pitch": 45,
+  "bearing": 0,
+  "light": {
+    "anchor": "viewport",
+    "color": "#ffffff",
+    "intensity": 0.5,
+    "position": [1.5, 90, 40]
+  },
   "sources": {
     "satellite-sentinel": {
       "type": "raster",

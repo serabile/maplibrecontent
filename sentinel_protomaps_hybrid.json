@@ -1,9 +1,9 @@
 {
   "version": 8,
-  "name": "Sentinel-2 & Protomaps Hybrid (Open Data)",
+  "name": "Sentinel-2 & OpenStreetMap Hybrid (Open Data)",
   "metadata": {
-    "description": "Style hybride 100% Open Data : Imagerie satellite Copernicus Sentinel-2 et vecteur OpenStreetMap / Protomaps. Sans risque de licence propriétaire, utilisable commercialement et compatible hors-ligne.",
-    "attribution": "Données satellitaires : Copernicus Sentinel (ESA / EOX) · Données cartographiques : © Contributeurs OpenStreetMap (ODbL) / Protomaps"
+    "description": "Style hybride 100% Open Data : imagerie satellite Copernicus Sentinel-2 (EOX) et vecteur OpenStreetMap servi par OpenFreeMap (schéma OpenMapTiles). Sans clé d'API, utilisable commercialement, compatible hors-ligne.",
+    "attribution": "Données satellitaires : Copernicus Sentinel (ESA / EOX) · Données cartographiques : OpenFreeMap © OpenMapTiles, © Contributeurs OpenStreetMap (ODbL)"
   },
   "center": [54.37, 24.47],
   "zoom": 10,
@@ -26,17 +26,14 @@
       "maxzoom": 16,
       "attribution": "<a href='https://s2maps.eu' target='_blank'>Sentinel-2 cloudless by EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data)"
     },
-    "protomaps-vector": {
+    "openmaptiles": {
       "type": "vector",
-      "tiles": [
-        "https://api.protomaps.com/tiles/v3/{z}/{x}/{y}.mvt"
-      ],
-      "maxzoom": 15,
-      "attribution": "<a href='https://www.openstreetmap.org/copyright' target='_blank'>© OpenStreetMap contributors</a>, <a href='https://protomaps.com' target='_blank'>Protomaps</a>"
+      "url": "https://tiles.openfreemap.org/planet",
+      "attribution": "<a href='https://openfreemap.org' target='_blank'>OpenFreeMap</a> <a href='https://www.openmaptiles.org/' target='_blank'>© OpenMapTiles</a> <a href='https://www.openstreetmap.org/copyright' target='_blank'>Data from OpenStreetMap</a>"
     }
   },
-  "glyphs": "https://protomaps.github.io/basemaps-assets/glyphs/{fontstack}/{range}.pbf",
-  "sprite": "https://protomaps.github.io/basemaps-assets/sprites/v3/light",
+  "glyphs": "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
+  "sprite": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm",
   "layers": [
     {
       "id": "background",
@@ -57,7 +54,7 @@
     {
       "id": "water-lines",
       "type": "line",
-      "source": "protomaps-vector",
+      "source": "openmaptiles",
       "source-layer": "water",
       "minzoom": 8,
       "paint": {
@@ -69,7 +66,7 @@
     {
       "id": "waterways",
       "type": "line",
-      "source": "protomaps-vector",
+      "source": "openmaptiles",
       "source-layer": "waterway",
       "minzoom": 10,
       "paint": {
@@ -89,9 +86,9 @@
     {
       "id": "boundaries-country",
       "type": "line",
-      "source": "protomaps-vector",
-      "source-layer": "boundaries",
-      "filter": ["<=", ["get", "pmap:min_admin_level"], 2],
+      "source": "openmaptiles",
+      "source-layer": "boundary",
+      "filter": ["<=", ["get", "admin_level"], 2],
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -110,10 +107,10 @@
     {
       "id": "boundaries-region",
       "type": "line",
-      "source": "protomaps-vector",
-      "source-layer": "boundaries",
+      "source": "openmaptiles",
+      "source-layer": "boundary",
       "minzoom": 6,
-      "filter": [">", ["get", "pmap:min_admin_level"], 2],
+      "filter": [">", ["get", "admin_level"], 2],
       "paint": {
         "line-color": "#d0d8e8",
         "line-width": 1,
@@ -124,10 +121,10 @@
     {
       "id": "roads-minor-casing",
       "type": "line",
-      "source": "protomaps-vector",
-      "source-layer": "roads",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
       "minzoom": 13,
-      "filter": ["in", ["get", "pmap:kind"], ["literal", ["minor_road", "service", "track", "path"]]],
+      "filter": ["in", ["get", "class"], ["literal", ["minor", "service", "track", "path"]]],
       "paint": {
         "line-color": "#000000",
         "line-width": [
@@ -145,10 +142,10 @@
     {
       "id": "roads-minor-fill",
       "type": "line",
-      "source": "protomaps-vector",
-      "source-layer": "roads",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
       "minzoom": 13,
-      "filter": ["in", ["get", "pmap:kind"], ["literal", ["minor_road", "service", "track", "path"]]],
+      "filter": ["in", ["get", "class"], ["literal", ["minor", "service", "track", "path"]]],
       "paint": {
         "line-color": "#ffffff",
         "line-width": [
@@ -166,10 +163,10 @@
     {
       "id": "roads-major-casing",
       "type": "line",
-      "source": "protomaps-vector",
-      "source-layer": "roads",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
       "minzoom": 9,
-      "filter": ["in", ["get", "pmap:kind"], ["literal", ["primary", "secondary", "tertiary"]]],
+      "filter": ["in", ["get", "class"], ["literal", ["primary", "secondary", "tertiary"]]],
       "paint": {
         "line-color": "#000000",
         "line-width": [
@@ -187,10 +184,10 @@
     {
       "id": "roads-major-fill",
       "type": "line",
-      "source": "protomaps-vector",
-      "source-layer": "roads",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
       "minzoom": 9,
-      "filter": ["in", ["get", "pmap:kind"], ["literal", ["primary", "secondary", "tertiary"]]],
+      "filter": ["in", ["get", "class"], ["literal", ["primary", "secondary", "tertiary"]]],
       "paint": {
         "line-color": "#f8c058",
         "line-width": [
@@ -208,10 +205,10 @@
     {
       "id": "roads-highway-casing",
       "type": "line",
-      "source": "protomaps-vector",
-      "source-layer": "roads",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
       "minzoom": 6,
-      "filter": ["in", ["get", "pmap:kind"], ["literal", ["highway", "motorway", "trunk"]]],
+      "filter": ["in", ["get", "class"], ["literal", ["motorway", "trunk"]]],
       "paint": {
         "line-color": "#000000",
         "line-width": [
@@ -229,10 +226,10 @@
     {
       "id": "roads-highway-fill",
       "type": "line",
-      "source": "protomaps-vector",
-      "source-layer": "roads",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
       "minzoom": 6,
-      "filter": ["in", ["get", "pmap:kind"], ["literal", ["highway", "motorway", "trunk"]]],
+      "filter": ["in", ["get", "class"], ["literal", ["motorway", "trunk"]]],
       "paint": {
         "line-color": "#ff7333",
         "line-width": [
@@ -250,26 +247,25 @@
     {
       "id": "buildings-3d",
       "type": "fill-extrusion",
-      "source": "protomaps-vector",
-      "source-layer": "buildings",
+      "source": "openmaptiles",
+      "source-layer": "building",
       "minzoom": 15,
-      "filter": ["==", ["get", "pmap:kind"], "building"],
       "paint": {
         "fill-extrusion-color": "#d8e0e8",
         "fill-extrusion-opacity": 0.85,
-        "fill-extrusion-base": ["coalesce", ["get", "min_height"], 0],
+        "fill-extrusion-base": ["coalesce", ["get", "render_min_height"], 0],
         "fill-extrusion-height": [
           "min",
           400,
-          ["coalesce", ["get", "height"], 10]
+          ["coalesce", ["get", "render_height"], 10]
         ]
       }
     },
     {
       "id": "road-labels",
       "type": "symbol",
-      "source": "protomaps-vector",
-      "source-layer": "roads",
+      "source": "openmaptiles",
+      "source-layer": "transportation_name",
       "minzoom": 13,
       "layout": {
         "symbol-placement": "line",
@@ -294,11 +290,11 @@
     {
       "id": "places-villages-towns",
       "type": "symbol",
-      "source": "protomaps-vector",
-      "source-layer": "places",
+      "source": "openmaptiles",
+      "source-layer": "place",
       "minzoom": 9,
       "maxzoom": 14,
-      "filter": ["in", ["get", "pmap:kind"], ["literal", ["town", "village", "hamlet", "neighbourhood"]]],
+      "filter": ["in", ["get", "class"], ["literal", ["town", "village", "hamlet", "suburb", "neighbourhood"]]],
       "layout": {
         "text-field": ["get", "name"],
         "text-font": ["Noto Sans Regular"],
@@ -321,11 +317,11 @@
     {
       "id": "places-cities",
       "type": "symbol",
-      "source": "protomaps-vector",
-      "source-layer": "places",
+      "source": "openmaptiles",
+      "source-layer": "place",
       "minzoom": 4,
       "maxzoom": 12,
-      "filter": ["in", ["get", "pmap:kind"], ["literal", ["city", "major_city"]]],
+      "filter": ["==", ["get", "class"], "city"],
       "layout": {
         "text-field": ["get", "name"],
         "text-font": ["Noto Sans Bold"],
@@ -348,11 +344,11 @@
     {
       "id": "places-country",
       "type": "symbol",
-      "source": "protomaps-vector",
-      "source-layer": "places",
+      "source": "openmaptiles",
+      "source-layer": "place",
       "minzoom": 1,
       "maxzoom": 7,
-      "filter": ["==", ["get", "pmap:kind"], "country"],
+      "filter": ["==", ["get", "class"], "country"],
       "layout": {
         "text-field": ["get", "name"],
         "text-font": ["Noto Sans Bold"],

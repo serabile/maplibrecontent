@@ -65,7 +65,6 @@
       "id": "ortoEsri",
       "type": "raster",
       "source": "ortoEsri",
-      "maxzoom": 16,
       "layout": {
         "visibility": "visible"
       }
